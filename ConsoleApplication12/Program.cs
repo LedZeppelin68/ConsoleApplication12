@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace ConsoleApplication12
@@ -65,10 +62,6 @@ namespace ConsoleApplication12
         }
         static void Main(string[] args)
         {
-            //var rawdump = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-
-
             var file = args[0];
 
             var rawreader = new BinaryReader(new MemoryStream(File.ReadAllBytes(file)));
@@ -125,19 +118,11 @@ namespace ConsoleApplication12
                 var rawopcodehexstring = string.Format("0x{0:X8}", rawopcode);
                 if (branches[pc] != 0) optype.sharp = string.Format("pc{0}: {1}", pc, optype.sharp);
                 var debug = string.Format("{0}  {1}", rawopcode >> 26 & 0x3f, rawopcode & 0x3f);
-                //dataGridView1.Rows.Add(pc, rawopcodehexstring, optype.asm, debug, optype.sharp);
-                //dataGridView1.Rows.Add(rawopcodehexstring, optype.asm, optype);
                 listing.Add(optype.sharp);
                 pc++;
             }
             File.WriteAllLines("LOG.txt", listing);
         }
-
-        
-
-       
-
-        
 
         static translatedopcode translaterawopcode(int rawopcode, int pc, BinaryReader rawreader)
         {
