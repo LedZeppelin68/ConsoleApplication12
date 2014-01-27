@@ -106,7 +106,8 @@ namespace ConsoleApplication12
                 pc++;
             }
 
-            var listing = new List<string>();
+            //var listing = new List<string>();
+            var listing = new string[0];
             pc = 0;
             rawreader.BaseStream.Position = 0;
             while (rawreader.BaseStream.Position != rawreader.BaseStream.Length)
@@ -118,10 +119,12 @@ namespace ConsoleApplication12
                 var rawopcodehexstring = string.Format("0x{0:X8}", rawopcode);
                 if (branches[pc] != 0) optype.sharp = string.Format("pc{0}: {1}", pc, optype.sharp);
                 var debug = string.Format("{0}  {1}", rawopcode >> 26 & 0x3f, rawopcode & 0x3f);
-                listing.Add(optype.sharp);
+                //listing.Add(optype.sharp);
+                Array.Resize(ref listing, listing.Length + 1);
+                listing[pc] = optype.sharp;
                 pc++;
             }
-            File.WriteAllLines("LOG.txt", listing);
+            File.WriteAllLines("LOG.txt", listing,System.Text.Encoding.Default);
         }
 
         static translatedopcode translaterawopcode(int rawopcode, int pc, BinaryReader rawreader)
